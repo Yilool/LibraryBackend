@@ -11,6 +11,7 @@ public class SegurityUserDTO {
 	
 	private String username;
 	private String password;
+	private String jwt;
 	private Set<SegurityUserRole> roles;
 
 	public String getUsername() {
@@ -35,6 +36,14 @@ public class SegurityUserDTO {
 
 	public void setRoles(Set<SegurityUserRole> roles) {
 		this.roles = roles;
+	}
+
+	public String getJwt() {
+		return jwt;
+	}
+
+	public void setJwt(String jwt) {
+		this.jwt = jwt;
 	}
 
 }

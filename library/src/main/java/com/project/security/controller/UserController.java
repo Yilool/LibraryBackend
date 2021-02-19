@@ -21,7 +21,7 @@ public class UserController {
 	private UserService userService;
 	
 	
-	@PostMapping("/sign-up")
+	@PostMapping("/sign-in")
 	public ResponseEntity<SegurityUserDTO> signUp(@RequestBody SegurityUserDTO userDTO) {
 		try {
 			return ResponseEntity.status(HttpStatus.CREATED).body(userService.createNewUser(userDTO));
@@ -30,7 +30,7 @@ public class UserController {
 		}
 	}
 
-	@PostMapping("/login")
+	@PostMapping("/log-in")
 	public ResponseEntity<SegurityUserDTO> login(@RequestBody SegurityUserDTO userDTO){
 		// Created only to retrieve the Bearer token once authenticated
 		return ResponseEntity.status(HttpStatus.OK).body(userDTO);

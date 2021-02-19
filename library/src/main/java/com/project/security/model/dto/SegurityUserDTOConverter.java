@@ -13,14 +13,15 @@ import com.project.security.model.SegurityUserRole;
 @Component
 public class SegurityUserDTOConverter {
 	
-	@Autowired
-	private PasswordEncoder passwordEncoder;
+	//@Autowired
+	//private PasswordEncoder passwordEncoder;
 	
 	public SegurityUser fromSegurityUserDTOToSegurityUser(SegurityUserDTO dto) {
 		SegurityUser user  = new SegurityUser();
 		
 		user.setUsername(dto.getUsername());
-		user.setPassword(passwordEncoder.encode(dto.getPassword()));
+		//user.setPassword(passwordEncoder.encode(dto.getPassword()));
+		user.setPassword(dto.getPassword());
 		user.setRoles(Set.of(SegurityUserRole.USER));
 		user.setCreateTime(LocalDateTime.now());
 		user.setUpdateTime(LocalDateTime.now());
@@ -38,6 +39,7 @@ public class SegurityUserDTOConverter {
 		SegurityUserDTO dto = new SegurityUserDTO();
 		
 		dto.setUsername(user.getUsername());
+		dto.setPassword(user.getPassword());
 		dto.setRoles(user.getRoles());
 		
 		return dto;
