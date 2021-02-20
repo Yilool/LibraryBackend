@@ -2,9 +2,11 @@ package com.project.security.model;
 
 import java.time.LocalDateTime;
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
@@ -15,6 +17,8 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
 
 import org.hibernate.annotations.UpdateTimestamp;
 import org.springframework.data.annotation.CreatedDate;
@@ -23,9 +27,15 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import com.project.model.entity.LibraryUser;
+
 @Entity
 @EntityListeners(AuditingEntityListener.class)
 public class SegurityUser implements UserDetails{
+	private static final long serialVersionUID = 2046866248113544418L;
+	
+	private static final int MAX_AUTH_ATTEMPTS = 3;
+	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
@@ -38,6 +48,10 @@ public class SegurityUser implements UserDetails{
 	@ElementCollection(fetch = FetchType.EAGER)
 	@Enumerated(EnumType.STRING)
 	private Set<SegurityUserRole> roles;
+	
+	@OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER, optional = false)
+    @JoinColumn(name = "libraryuser_id", referencedColumnName = "id", nullable = false)
+	private LibraryUser libraryUser;
 	
 	@CreatedDate
 	private LocalDateTime createTime;
@@ -56,11 +70,40 @@ public class SegurityUser implements UserDetails{
 	private Integer authenticationAttempts;
 	
 	private LocalDateTime passwordPolicyExpDate;
+	
+	
+	public SegurityUser() {
+		super();
+		this.roles = new HashSet<>();
+		this.roles.add(SegurityUserRole.USER);
+		this.libraryUser = new LibraryUser();
+		this.createTime = LocalDateTime.now();
+		this.updateTime = null;
+		this.deleteTime = null;
+		this.lastPasswordChange = null;
+		this.locked = Boolean.FALSE;
+		this.enabled = Boolean.TRUE;
+		this.authenticationAttempts = MAX_AUTH_ATTEMPTS;
+		this.passwordPolicyExpDate = LocalDateTime.now().plusYears(1);
+	}
 
-	private static final long serialVersionUID = 2046866248113544418L;
-	
-	private static final int MAX_AUTH_ATTEMPTS = 3;
-	
+	public SegurityUser(String username, String password, String name, String surname, String dni, String birthdate, String number) {
+		super();
+		this.username = username;
+		this.password = password;
+		this.roles = new HashSet<>();
+		this.roles.add(SegurityUserRole.USER);
+		this.libraryUser = new LibraryUser(name, surname, dni, birthdate, number, this);
+		this.createTime = LocalDateTime.now();
+		this.updateTime = null;
+		this.deleteTime = null;
+		this.lastPasswordChange = null;
+		this.locked = Boolean.FALSE;
+		this.enabled = Boolean.TRUE;
+		this.authenticationAttempts = MAX_AUTH_ATTEMPTS;
+		this.passwordPolicyExpDate = LocalDateTime.now().plusYears(1);
+	}
+
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
 		return roles.stream().map(ur -> new SimpleGrantedAuthority("ROLE_"+ur.name())).collect(Collectors.toList());

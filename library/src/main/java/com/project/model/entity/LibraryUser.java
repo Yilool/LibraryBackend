@@ -4,6 +4,9 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToOne;
+
+import com.project.security.model.SegurityUser;
 
 @Entity
 public class LibraryUser {
@@ -19,19 +22,23 @@ public class LibraryUser {
 	
 	private String birthdate;
 	
-	private String number;
+	private String phonenumber;
+	
+	@OneToOne(mappedBy = "libraryUser")
+	private SegurityUser segurityUser;
 
 	public LibraryUser() {
 		super();
 	}
 	
-	public LibraryUser(String name, String surname, String dni, String birthdate, String number) {
+	public LibraryUser(String name, String surname, String dni, String birthdate, String number, SegurityUser segurityUser) {
 		super();
 		this.name = name;
 		this.surname = surname;
 		this.dni = dni;
 		this.birthdate = birthdate;
-		this.number = number;
+		this.phonenumber = number;
+		this.segurityUser = segurityUser;
 	}
 
 	public Integer getId() {
@@ -75,10 +82,14 @@ public class LibraryUser {
 	}
 
 	public String getNumber() {
-		return number;
+		return phonenumber;
 	}
 
 	public void setNumber(String number) {
-		this.number = number;
+		this.phonenumber = number;
+	}
+
+	public SegurityUser getSegurityUser() {
+		return segurityUser;
 	}
 }

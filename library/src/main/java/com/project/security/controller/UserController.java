@@ -1,5 +1,7 @@
 package com.project.security.controller;
 
+import javax.servlet.http.HttpServletResponse;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,7 +24,7 @@ public class UserController {
 	
 	
 	@PostMapping("/sign-in")
-	public ResponseEntity<SegurityUserDTO> signUp(@RequestBody SegurityUserDTO userDTO) {
+	public ResponseEntity<SegurityUserDTO> signin(@RequestBody SegurityUserDTO userDTO) {
 		try {
 			return ResponseEntity.status(HttpStatus.CREATED).body(userService.createNewUser(userDTO));
 		}catch(Exception ex) {
@@ -31,8 +33,8 @@ public class UserController {
 	}
 
 	@PostMapping("/log-in")
-	public ResponseEntity<SegurityUserDTO> login(@RequestBody SegurityUserDTO userDTO){
-		// Created only to retrieve the Bearer token once authenticated
+	public ResponseEntity<SegurityUserDTO> login(@RequestBody SegurityUserDTO userDTO, HttpServletResponse response){
+		
 		return ResponseEntity.status(HttpStatus.OK).body(userDTO);
 	}
 }

@@ -8,12 +8,18 @@ import com.project.security.model.SegurityUserRole;
 
 @JsonInclude(Include.NON_NULL)
 public class SegurityUserDTO {
+	private String jwt;
 	
 	private String username;
 	private String password;
-	private String jwt;
+	
 	private Set<SegurityUserRole> roles;
-
+	private String name;
+	private String surname;
+	private String dni;
+	private String birthdate;
+	private String number;
+	
 	public String getUsername() {
 		return username;
 	}
@@ -46,4 +52,43 @@ public class SegurityUserDTO {
 		this.jwt = jwt;
 	}
 
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public String getSurname() {
+		return surname;
+	}
+
+	public void setSurname(String surname) {
+		this.surname = surname;
+	}
+
+	public String getDni() {
+		return dni;
+	}
+
+	public void setDni(String dni) {
+		this.dni = dni;
+	}
+
+	public String getBirthdate() {
+		return birthdate;
+	}
+
+	public void setBirthdate(String birthdate) {
+		this.birthdate = birthdate;
+	}
+
+	public String getNumber() {
+		return number;
+	}
+
+	public void setNumber(String number) {
+		this.number = number;
+	}
 }
