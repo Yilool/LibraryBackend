@@ -11,6 +11,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 
 import com.project.security.common.SecurityConstants;
@@ -27,6 +28,12 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter{
 
 	@Autowired
 	private JWTAuthorizationFilter jwtAuthorizationFilter;
+	
+	@Autowired
+	private UserService userService;
+	
+	@Autowired
+	private PasswordEncoder passwordEncoder;
 
 	@Bean
 	@Override
@@ -41,12 +48,23 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter{
 	       http.cors().and().csrf().disable().authorizeRequests()
            					.antMatchers(HttpMethod.POST, SecurityConstants.SIGN_IN_URL).permitAll()
            					.antMatchers(HttpMethod.POST, SecurityConstants.LOG_IN_URL).permitAll()
-           					.antMatchers(HttpMethod.GET, "/customer/*").hasRole(SegurityUserRole.USER.name())
-           					.antMatchers(HttpMethod.POST, "/customer/*").hasRole(SegurityUserRole.ADMIN.name())
+           					.antMatchers(HttpMethod.GET, "/user/loged").permitAll()
+           					.antMatchers(HttpMethod.GET, "/book/*").permitAll()
+           					.antMatchers(HttpMethod.POST, "/book/*").hasRole(SegurityUserRole.ADMIN.name())
+           					.antMatchers(HttpMethod.PUT, "/book/*").hasRole(SegurityUserRole.ADMIN.name())
+           					.antMatchers(HttpMethod.DELETE, "/book/*").hasRole(SegurityUserRole.ADMIN.name())
+           					.antMatchers(HttpMethod.GET, "/bookshelf/*").permitAll()
+           					.antMatchers(HttpMethod.POST, "/bookshelf/*").hasRole(SegurityUserRole.ADMIN.name())
+           					.antMatchers(HttpMethod.DELETE, "/bookshelf/*").hasRole(SegurityUserRole.ADMIN.name())
            					.anyRequest().authenticated()
            				.and()
            					.addFilter(new JWTAuthenticationFilter(authenticationManagerBean()))
            					.addFilterBefore(jwtAuthorizationFilter, BasicAuthenticationFilter.class)
            				.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 	}
+	
+	@Override
+    public void configure(AuthenticationManagerBuilder auth) throws Exception {
+        auth.userDetailsService(userService).passwordEncoder(passwordEncoder);
+    }
 }

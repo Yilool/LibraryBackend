@@ -75,12 +75,12 @@ public class SegurityUser implements UserDetails{
 	public SegurityUser() {
 		super();
 		this.roles = new HashSet<>();
-		this.roles.add(SegurityUserRole.USER);
+		this.roles.add(SegurityUserRole.ADMIN);
 		this.libraryUser = new LibraryUser();
 		this.createTime = LocalDateTime.now();
 		this.updateTime = null;
 		this.deleteTime = null;
-		this.lastPasswordChange = null;
+		this.lastPasswordChange = LocalDateTime.now();;
 		this.locked = Boolean.FALSE;
 		this.enabled = Boolean.TRUE;
 		this.authenticationAttempts = MAX_AUTH_ATTEMPTS;
@@ -92,12 +92,12 @@ public class SegurityUser implements UserDetails{
 		this.username = username;
 		this.password = password;
 		this.roles = new HashSet<>();
-		this.roles.add(SegurityUserRole.USER);
+		this.roles.add(SegurityUserRole.ADMIN);
 		this.libraryUser = new LibraryUser(name, surname, dni, birthdate, number, this);
 		this.createTime = LocalDateTime.now();
 		this.updateTime = null;
 		this.deleteTime = null;
-		this.lastPasswordChange = null;
+		this.lastPasswordChange = LocalDateTime.now();
 		this.locked = Boolean.FALSE;
 		this.enabled = Boolean.TRUE;
 		this.authenticationAttempts = MAX_AUTH_ATTEMPTS;
@@ -121,17 +121,17 @@ public class SegurityUser implements UserDetails{
 
 	@Override
 	public boolean isAccountNonExpired() {
-		return this.getDeleteTime()==null;
+		return true;
 	}
 
 	@Override
 	public boolean isAccountNonLocked() {
-		return this.getAuthenticationAttempts() < MAX_AUTH_ATTEMPTS;
+		return true;
 	}
 
 	@Override
 	public boolean isCredentialsNonExpired() {
-		return this.getLastPasswordChange().isBefore(this.passwordPolicyExpDate);
+		return true;
 	}
 
 	@Override

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -16,9 +17,8 @@ public class BookShelf {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 	
+	@Column(unique = true)
 	private String genre;
-	
-	private String language;
 	
 	@OneToMany(mappedBy="bookShelf", cascade = CascadeType.ALL)
 	private List<Book> books;
@@ -28,10 +28,9 @@ public class BookShelf {
 		this.books = new ArrayList<>();
 	}
 	
-	public BookShelf(String genre, String language) {
+	public BookShelf(String genre) {
 		super();
-		this.genre = genre;
-		this.language = language;
+		this.genre = genre.substring(0, 1).toUpperCase() + genre.substring(1).toLowerCase();
 		this.books = new ArrayList<>();
 	}
 
@@ -49,14 +48,6 @@ public class BookShelf {
 
 	public void setGenre(String genre) {
 		this.genre = genre;
-	}
-
-	public String getLanguage() {
-		return language;
-	}
-
-	public void setLanguage(String language) {
-		this.language = language;
 	}
 
 	public List<Book> getBooks() {

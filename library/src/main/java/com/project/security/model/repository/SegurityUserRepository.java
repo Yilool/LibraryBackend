@@ -10,4 +10,6 @@ import com.project.security.model.SegurityUser;
 public interface SegurityUserRepository extends JpaRepository<SegurityUser, Integer>{
 
 	public Optional<SegurityUser> findByUsername(String username);
+	
+	public SegurityUser findSegurityUserByUsername(String username);
 }

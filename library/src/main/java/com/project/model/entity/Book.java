@@ -1,5 +1,6 @@
 package com.project.model.entity;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.ForeignKey;
 import javax.persistence.GeneratedValue;
@@ -14,6 +15,7 @@ public class Book {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 	
+	@Column(unique = true)
 	private String title;
 	
 	private int pages;
@@ -40,7 +42,7 @@ public class Book {
 	public Book(String title, String author, String publisher, String edition, String isbn) {
 		super();
 		this.borrow = Boolean.FALSE;
-		this.title = title;
+		this.title = title.substring(0, 1) + title.substring(1);
 		this.author = author;
 		this.publisher = publisher;
 		this.edition = edition;
