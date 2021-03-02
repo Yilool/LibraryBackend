@@ -1,9 +1,5 @@
 package com.project.security.controller;
 
-import static com.project.security.common.SecurityConstants.HEADER_STRING;
-
-import javax.servlet.http.HttpServletResponse;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,11 +11,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
-import com.project.security.model.SegurityUser;
 import com.project.security.model.dto.SegurityUserDTO;
 import com.project.security.service.UserService;
 
-@CrossOrigin(exposedHeaders = HEADER_STRING)
+@CrossOrigin
 @RestController
 @RequestMapping("/user")
 public class UserController {

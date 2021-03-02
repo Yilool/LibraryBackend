@@ -1,5 +1,7 @@
 package com.project;
 
+import static com.project.security.common.SecurityConstants.HEADER_STRING;
+
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
@@ -20,7 +22,7 @@ public class LibraryApplication {
 	        return new WebMvcConfigurer() {
 	            @Override
 	            public void addCorsMappings(CorsRegistry registry) {
-	                registry.addMapping("/**").allowedOrigins("*").allowedMethods("GET", "POST","PUT", "DELETE");
+	                registry.addMapping("/**").allowedOrigins("*").allowedMethods("GET", "POST","PUT", "DELETE").exposedHeaders(HEADER_STRING);
 	            }
 	        };
 		}

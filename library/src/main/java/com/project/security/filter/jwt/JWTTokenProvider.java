@@ -15,7 +15,6 @@ import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
 
 public class JWTTokenProvider {
-
 	private static SecretKey key; 
 	
 	public static String generateToken(SegurityUser user) {
@@ -24,7 +23,8 @@ public class JWTTokenProvider {
 				.setSubject(user.getId().toString())
 				.setId(user.getId().toString())
 				.setIssuedAt(new Date(System.currentTimeMillis()))
-				.claim("updateTime", user.getUpdateTime())//Example
+				.claim("username", user.getUsername())
+				.claim("roles", user.getRoles())
 				.setExpiration(new Date(System.currentTimeMillis() + EXPIRATION_TIME))
 				.signWith(getKey(), SignatureAlgorithm.HS512)
 				.compact();
