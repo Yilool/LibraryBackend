@@ -39,7 +39,7 @@ public class Book {
 		this.borrow = Boolean.FALSE;
 	}
 	
-	public Book(String title, String author, String publisher, String edition, String isbn) {
+	public Book(String title, String author, String publisher, String edition, String isbn, int pages) {
 		super();
 		this.borrow = Boolean.FALSE;
 		this.title = title.substring(0, 1) + title.substring(1);
@@ -47,6 +47,7 @@ public class Book {
 		this.publisher = publisher;
 		this.edition = edition;
 		this.isbn = isbn;
+		this.pages = pages;
 	}
 
 	public Integer getId() {

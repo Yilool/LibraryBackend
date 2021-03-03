@@ -14,13 +14,13 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.project.model.entity.Book;
+import com.project.model.dto.BookDTO;
 import com.project.service.BookService;
 
 @CrossOrigin
 @RestController
 @RequestMapping(path = "/book")
-public class BookController {
+public class BookController { 
 	@Autowired
 	private BookService bookService;
 
@@ -29,7 +29,7 @@ public class BookController {
 		ResponseEntity<?> response;
 
 		try {
-			List<Book> results = bookService.getAllBook();
+			List<BookDTO> results = bookService.getAllBook();
 			response = ResponseEntity.ok(results);
 		} catch (Exception e) {
 			response = ResponseEntity.badRequest().body(e.getMessage());
@@ -39,11 +39,11 @@ public class BookController {
 	}
 
 	@PostMapping
-	public ResponseEntity<?> addBook(@RequestBody Book book) {
+	public ResponseEntity<?> addBook(@RequestBody BookDTO book) {
 		ResponseEntity<?> response;
 
 		try {
-			Book book2 = bookService.addBook(book);
+			BookDTO book2 = bookService.addBook(book);
 			response = ResponseEntity.ok(book2);
 		} catch (Exception e) {
 			response = ResponseEntity.badRequest().body(e.getMessage());
@@ -57,7 +57,7 @@ public class BookController {
 		ResponseEntity<?> response;
 
 		try {
-			Book book = bookService.getBookById(id);
+			BookDTO book = bookService.getBookById(id);
 			response = ResponseEntity.ok(book);
 		} catch (Exception e) {
 			response = ResponseEntity.badRequest().body(e.getMessage());
@@ -67,11 +67,11 @@ public class BookController {
 	}
 
 	@PutMapping(path = "/{id}")
-	public ResponseEntity<?> updateBook(@PathVariable Integer id, @RequestBody Book book) {
+	public ResponseEntity<?> updateBook(@PathVariable Integer id, @RequestBody BookDTO book) {
 		ResponseEntity<?> response;
 
 		try {
-			Book book2 = bookService.updateBook(id, book);
+			BookDTO book2 = bookService.updateBook(id, book);
 			response = ResponseEntity.ok(book2);
 		} catch (Exception e) { 
 			response = ResponseEntity.badRequest().body(e.getMessage());
@@ -85,7 +85,7 @@ public class BookController {
 		ResponseEntity<?> response;
 
 		try {
-			Book book = bookService.deleteBook(id);
+			BookDTO book = bookService.deleteBook(id);
 			response = ResponseEntity.ok(book);
 		} catch (Exception e) {
 			response = ResponseEntity.badRequest().body(e.getMessage());

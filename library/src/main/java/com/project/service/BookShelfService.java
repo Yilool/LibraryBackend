@@ -1,10 +1,13 @@
 package com.project.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.project.model.dto.BookShelfConverter;
+import com.project.model.dto.BookShelfDTO;
 import com.project.model.entity.BookShelf;
 import com.project.model.repository.BookShelfRepository;
 
@@ -12,45 +15,57 @@ import com.project.model.repository.BookShelfRepository;
 public class BookShelfService {
 	@Autowired
 	private BookShelfRepository bookShelfRepository;
-
-	public List<BookShelf> getAllBookShelves() throws Exception {
+	@Autowired
+	private BookShelfConverter converter;
+	
+	public List<BookShelfDTO> getAllBookShelves() throws Exception {
 		List<BookShelf> result = (List<BookShelf>) bookShelfRepository.findAll();
 
 		if (result.size() == 0) {
 			throw new Exception("There aren't BookShelves");
 		}
 
-		return result;
+		List<BookShelfDTO> bookShelfsDTOs = new ArrayList<>();
+		
+		result.stream().forEach(bs -> {
+			BookShelfDTO bookShelfDTO = converter.fromBookToBookShelfDTO(bs);
+			bookShelfsDTOs.add(bookShelfDTO);
+		});
+		
+		return bookShelfsDTOs;
 	}
 
-	public BookShelf addBookShelf(BookShelf bookShelf) throws Exception {
+	public BookShelfDTO addBookShelf(BookShelfDTO bookShelf) throws Exception {
 		BookShelf bookShelf2 = bookShelfRepository.findBookShelfByGenre(bookShelf.getGenre());
 
 		if (bookShelf2 != null) {
 			throw new Exception("BookShelf already exists");
 		}
+		
+		bookShelf2 = converter.fromBookShelfDTOToBook(bookShelf);
 
-		return bookShelfRepository.save(bookShelf);
+		return converter.fromBookToBookShelfDTO(bookShelfRepository.save(bookShelf2));
 	}
 
-	public BookShelf getBookShelfById(Integer id) throws Exception {
+	public BookShelfDTO getBookShelfById(Integer id) throws Exception {
 		BookShelf bookShelf = bookShelfRepository.findBookShelfById(id);
 
 		if (bookShelf == null) {
 			throw new Exception("BookShelf doesn't exist");
 		}
 
-		return bookShelf;
+		return converter.fromBookToBookShelfDTO(bookShelf);
 	}
 
-	public BookShelf deleteBookShelf(Integer id) throws Exception {
+	public BookShelfDTO deleteBookShelf(Integer id) throws Exception {
 		BookShelf bookShelf = bookShelfRepository.findBookShelfById(id);
 
 		if (bookShelf == null) {
 			throw new Exception("BookShelf doesn't exist");
 		}
+		
 		bookShelfRepository.delete(bookShelf);
 
-		return bookShelf;
+		return converter.fromBookToBookShelfDTO(bookShelf);
 	}
 }

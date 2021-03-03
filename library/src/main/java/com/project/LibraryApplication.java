@@ -11,7 +11,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @EnableJpaRepositories
 @EntityScan
-@SpringBootApplication(scanBasePackages = {"com.project"})
+@SpringBootApplication(scanBasePackages = {"com.*"})
 public class LibraryApplication {
 
 	public static void main(String[] args) {

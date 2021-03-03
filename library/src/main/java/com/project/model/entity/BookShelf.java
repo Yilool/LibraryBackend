@@ -11,6 +11,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 public class BookShelf {
 	@Id
@@ -20,6 +22,7 @@ public class BookShelf {
 	@Column(unique = true)
 	private String genre;
 	
+	@JsonIgnore
 	@OneToMany(mappedBy="bookShelf", cascade = CascadeType.ALL)
 	private List<Book> books;
 

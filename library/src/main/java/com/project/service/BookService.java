@@ -1,10 +1,13 @@
 package com.project.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.project.model.dto.BookDTO;
+import com.project.model.dto.BookDTOConverter;
 import com.project.model.entity.Book;
 import com.project.model.entity.BookShelf;
 import com.project.model.repository.BookRepository;
@@ -16,48 +19,55 @@ public class BookService {
 	private BookRepository bookRepository;
 	@Autowired
 	private BookShelfRepository bookShelfRepository;
+	@Autowired
+	private BookDTOConverter converter;
 
-	public List<Book> getAllBook() throws Exception {
+	public List<BookDTO> getAllBook() throws Exception {
 		List<Book> result = (List<Book>) bookRepository.findAll();
 
 		if (result.size() == 0) {
 			throw new Exception("There aren't books");
 		}
+		
+		List<BookDTO> booksDTOs = new ArrayList<>();
+		
+		result.stream().forEach(b -> {
+			BookDTO bookDTO = converter.fromBookToBookDTO(b);
+			booksDTOs.add(bookDTO);
+		});
 
-		return result;
+		return booksDTOs;
 	}
 
-	public Book addBook(Book book) throws Exception {
+	public BookDTO addBook(BookDTO book) throws Exception {
 		Book book2 = bookRepository.findBookByTitle(book.getTitle());
 
 		if (book2 != null) {
 			throw new Exception("Book already exists");
 		}
 
-		BookShelf bookShelf = bookShelfRepository.findBookShelfById(book.getBookShelf().getId());
+		BookShelf bookShelf = bookShelfRepository.findBookShelfByGenre(book.getBookShelf());
 
 		if (bookShelf == null) {
 			throw new Exception("The bookshelf doesn't exist");
 		}
 
-		book.setBookShelf(bookShelf);
+		book2 = converter.fromBookDTOToBook(book);
 
-		bookRepository.save(book);
-
-		return book;
+		return converter.fromBookToBookDTO(bookRepository.save(book2));
 	}
 
-	public Book getBookById(Integer id) throws Exception {
+	public BookDTO getBookById(Integer id) throws Exception {
 		Book book2 = bookRepository.findBookById(id);
 
 		if (book2 == null) {
 			throw new Exception("Book doesn't exist");
 		}
 
-		return book2;
+		return converter.fromBookToBookDTO(book2);
 	}
 
-	public Book updateBook(Integer id, Book book) throws Exception {
+	public BookDTO updateBook(Integer id, BookDTO book) throws Exception {
 		Book book2 = bookRepository.findBookById(id);
 
 		if (book2 == null) {
@@ -71,13 +81,13 @@ public class BookService {
 		book2.setEdition((book.getEdition() == null) ? book2.getEdition() : book.getEdition());
 		book2.setIsbn((book.getIsbn() == null) ? book2.getIsbn() : book.getIsbn());
 		book2.setBorrow(book.isBorrow());
+		book2.setBookShelf((book.getBookShelf() == null) ? book2.getBookShelf() : bookShelfRepository.findBookShelfByGenre(book.getBookShelf()));
+		
 
-		bookRepository.save(book2);
-
-		return book2;
+		return converter.fromBookToBookDTO(bookRepository.save(book2));
 	}
 
-	public Book deleteBook(Integer id) throws Exception {
+	public BookDTO deleteBook(Integer id) throws Exception {
 		Book book = bookRepository.findBookById(id);
 
 		if (book == null) {
@@ -86,6 +96,6 @@ public class BookService {
 
 		bookRepository.deleteById(id);
 
-		return book;
+		return converter.fromBookToBookDTO(book);
 	}
 }

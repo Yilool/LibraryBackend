@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.project.model.entity.BookShelf;
+import com.project.model.dto.BookShelfDTO;
 import com.project.service.BookShelfService;
 
 @CrossOrigin
@@ -28,7 +28,7 @@ public class BookShelfController {
 		ResponseEntity<?> response;
 
 		try {
-			List<BookShelf> result = bookShelfService.getAllBookShelves();
+			List<BookShelfDTO> result = bookShelfService.getAllBookShelves();
 			response = ResponseEntity.ok(result);
 		} catch (Exception e) {
 			response = ResponseEntity.badRequest().body(e.getMessage());
@@ -38,11 +38,11 @@ public class BookShelfController {
 	}
 
 	@PostMapping
-	public ResponseEntity<?> addBookShelf(@RequestBody BookShelf bookShelf) {
+	public ResponseEntity<?> addBookShelf(@RequestBody BookShelfDTO bookShelf) {
 		ResponseEntity<?> response;
 
 		try {
-			BookShelf bookShelf2 = bookShelfService.addBookShelf(bookShelf);
+			BookShelfDTO bookShelf2 = bookShelfService.addBookShelf(bookShelf);
 			response = ResponseEntity.ok(bookShelf2);
 		} catch (Exception e) {
 			response = ResponseEntity.badRequest().body(e.getMessage());
@@ -56,7 +56,7 @@ public class BookShelfController {
 		ResponseEntity<?> response;
 
 		try {
-			BookShelf bookShelf = bookShelfService.deleteBookShelf(id);
+			BookShelfDTO bookShelf = bookShelfService.deleteBookShelf(id);
 			response = ResponseEntity.ok(bookShelf);
 		} catch (Exception e) {
 			response = ResponseEntity.badRequest().body(e.getMessage());
