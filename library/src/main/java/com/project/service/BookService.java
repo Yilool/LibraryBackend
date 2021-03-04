@@ -6,8 +6,8 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.project.model.converter.BookDTOConverter;
 import com.project.model.dto.BookDTO;
-import com.project.model.dto.BookDTOConverter;
 import com.project.model.entity.Book;
 import com.project.model.entity.BookShelf;
 import com.project.model.repository.BookRepository;

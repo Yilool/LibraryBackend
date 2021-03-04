@@ -1,11 +1,12 @@
-package com.project.model.dto;
+package com.project.model.converter;
 
 import org.springframework.stereotype.Component;
 
+import com.project.model.dto.BookShelfDTO;
 import com.project.model.entity.BookShelf;
 
 @Component
-public class BookShelfConverter {
+public class BookShelfDTOConverter {
 	public BookShelf fromBookShelfDTOToBook(BookShelfDTO dto) {
 		
 		BookShelf bookShelf = new BookShelf(dto.getGenre());

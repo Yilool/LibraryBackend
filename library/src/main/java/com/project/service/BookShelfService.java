@@ -6,7 +6,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.project.model.dto.BookShelfConverter;
+import com.project.model.converter.BookShelfDTOConverter;
 import com.project.model.dto.BookShelfDTO;
 import com.project.model.entity.BookShelf;
 import com.project.model.repository.BookShelfRepository;
@@ -16,7 +16,7 @@ public class BookShelfService {
 	@Autowired
 	private BookShelfRepository bookShelfRepository;
 	@Autowired
-	private BookShelfConverter converter;
+	private BookShelfDTOConverter converter;
 	
 	public List<BookShelfDTO> getAllBookShelves() throws Exception {
 		List<BookShelf> result = (List<BookShelf>) bookShelfRepository.findAll();

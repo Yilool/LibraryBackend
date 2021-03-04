@@ -7,5 +7,5 @@ import com.project.model.entity.LibraryUser;
 
 @Repository
 public interface LibraryUserRepository extends JpaRepository<LibraryUser, Integer>{
-
+	public LibraryUser findLibraryUserById(final Integer Id);
 }

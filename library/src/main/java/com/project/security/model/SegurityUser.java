@@ -223,4 +223,13 @@ public class SegurityUser implements UserDetails{
 		this.enabled = enabled;
 	}
 
+	public LibraryUser getLibraryUser() {
+		return libraryUser;
+	}
+
+	public void setLibraryUser(LibraryUser libraryUser) {
+		this.libraryUser = libraryUser;
+	}
+
+	
 }

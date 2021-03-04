@@ -1,8 +1,9 @@
-package com.project.model.dto;
+package com.project.model.converter;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import com.project.model.dto.BookDTO;
 import com.project.model.entity.Book;
 import com.project.model.entity.BookShelf;
 import com.project.model.repository.BookShelfRepository;
