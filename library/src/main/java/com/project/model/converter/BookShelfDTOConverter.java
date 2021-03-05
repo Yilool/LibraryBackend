@@ -17,6 +17,7 @@ public class BookShelfDTOConverter {
 	public BookShelfDTO fromBookToBookShelfDTO(BookShelf bookShelf) {
 		BookShelfDTO dto = new BookShelfDTO();
 
+		dto.setId(bookShelf.getId());
 		dto.setGenre(bookShelf.getGenre());
 
 		return dto;

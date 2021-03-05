@@ -35,9 +35,4 @@ public class UserService implements UserDetailsService {
 	public SegurityUserDTO createNewUser(SegurityUserDTO userDTO) {
 		return converter.fromSegurityUserToSegurityUserDTO(segurityuserrepository.save(converter.fromSegurityUserDTOToSegurityUser(userDTO))); 
 	}
-	
-	public SegurityUserDTO getUser(SegurityUserDTO userDTO) {
-		return converter.fromSegurityUserToSegurityUserDTO(segurityuserrepository.findSegurityUserByUsername(userDTO.getUsername()));
-	}
-
 }
