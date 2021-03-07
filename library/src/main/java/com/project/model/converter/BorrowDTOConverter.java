@@ -8,18 +8,18 @@ import com.project.model.entity.Book;
 import com.project.model.entity.Borrow;
 import com.project.model.entity.LibraryUser;
 import com.project.model.repository.BookRepository;
-import com.project.security.model.SegurityUser;
-import com.project.security.model.repository.SegurityUserRepository;
+import com.project.security.model.SecurityUser;
+import com.project.security.model.repository.SecurityUserRepository;
 
 @Component
 public class BorrowDTOConverter {
 	@Autowired
 	private BookRepository bookRepository;
 	@Autowired
-	private SegurityUserRepository segurityUserRepository;
+	private SecurityUserRepository segurityUserRepository;
 	
 	public Borrow fromBorrowDTOToBorrow(BorrowDTO borrow) throws Exception {
-		SegurityUser su = segurityUserRepository.findSegurityUserByUsername(borrow.getUsername());
+		SecurityUser su = segurityUserRepository.findSegurityUserByUsername(borrow.getUsername());
 		
 		if (su == null) {
 			throw new Exception("Username doesn't exist");
@@ -42,8 +42,8 @@ public class BorrowDTOConverter {
 		return borrow2;
 	}
 	
-	public BorrowDTO fromBorrowToBorrowDTO(Borrow borrow) throws Exception {
-		SegurityUser su = borrow.getLibraryUser().getSegurityUser();
+	public BorrowDTO fromBorrowToBorrowDTO(Borrow borrow) {
+		SecurityUser su = borrow.getLibraryUser().getSegurityUser();
 		Book b = borrow.getBook();
 		
 		BorrowDTO borrowDTO = new BorrowDTO();

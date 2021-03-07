@@ -1,5 +1,5 @@
 package com.project.security.model;
 
-public enum SegurityUserRole {
+public enum SecurityUserRole {
 	USER, ADMIN
 }

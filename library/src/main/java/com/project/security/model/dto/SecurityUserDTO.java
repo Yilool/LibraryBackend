@@ -4,16 +4,16 @@ import java.util.Set;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
-import com.project.security.model.SegurityUserRole;
+import com.project.security.model.SecurityUserRole;
 
 @JsonInclude(Include.NON_NULL)
-public class SegurityUserDTO {
+public class SecurityUserDTO {
 	private String jwt;
 	
 	private String username;
 	private String password;
 	
-	private Set<SegurityUserRole> roles;
+	private Set<SecurityUserRole> roles;
 	private String name;
 	private String surname;
 	private String dni;
@@ -36,11 +36,11 @@ public class SegurityUserDTO {
 		this.password = password;
 	}
 
-	public Set<SegurityUserRole> getRoles() {
+	public Set<SecurityUserRole> getRoles() {
 		return roles;
 	}
 
-	public void setRoles(Set<SegurityUserRole> roles) {
+	public void setRoles(Set<SecurityUserRole> roles) {
 		this.roles = roles;
 	}
 

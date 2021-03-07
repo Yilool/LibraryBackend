@@ -10,20 +10,20 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
-import com.project.security.model.dto.SegurityUserDTO;
-import com.project.security.service.UserService;
+import com.project.security.model.dto.SecurityUserDTO;
+import com.project.security.service.SecurityUserService;
 
 @CrossOrigin
 @RestController
 @RequestMapping("/user")
-public class UserController {
+public class SecurityUserController {
 	
 	@Autowired
-	private UserService userService;
+	private SecurityUserService userService;
 	
 	
 	@PostMapping("/sign-in")
-	public ResponseEntity<SegurityUserDTO> signin(@RequestBody SegurityUserDTO userDTO) {
+	public ResponseEntity<SecurityUserDTO> signin(@RequestBody SecurityUserDTO userDTO) {
 		try {
 			return ResponseEntity.status(HttpStatus.CREATED).body(userService.createNewUser(userDTO));
 		}catch(Exception ex) {
@@ -32,7 +32,7 @@ public class UserController {
 	}
 
 	@PostMapping("/log-in")
-	public ResponseEntity<SegurityUserDTO> login(@RequestBody SegurityUserDTO userDTO){
+	public ResponseEntity<SecurityUserDTO> login(@RequestBody SecurityUserDTO userDTO){
 		
 		return ResponseEntity.status(HttpStatus.OK).body(userDTO);
 	}

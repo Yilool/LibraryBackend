@@ -17,8 +17,8 @@ import org.springframework.security.web.authentication.www.BasicAuthenticationFi
 import com.project.security.common.SecurityConstants;
 import com.project.security.filter.JWTAuthenticationFilter;
 import com.project.security.filter.JWTAuthorizationFilter;
-import com.project.security.model.SegurityUserRole;
-import com.project.security.service.UserService;
+import com.project.security.model.SecurityUserRole;
+import com.project.security.service.SecurityUserService;
 
 
 @Configuration
@@ -30,7 +30,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter{
 	private JWTAuthorizationFilter jwtAuthorizationFilter;
 	
 	@Autowired
-	private UserService userService;
+	private SecurityUserService userService;
 	
 	@Autowired
 	private PasswordEncoder passwordEncoder;
@@ -50,12 +50,12 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter{
            					.antMatchers(HttpMethod.POST, SecurityConstants.LOG_IN_URL).permitAll()
            					.antMatchers(HttpMethod.GET, "/user/loged").permitAll()
            					.antMatchers(HttpMethod.GET, "/book/*").permitAll()
-           					.antMatchers(HttpMethod.POST, "/book/*").hasRole(SegurityUserRole.ADMIN.name())
-           					.antMatchers(HttpMethod.PUT, "/book/*").hasRole(SegurityUserRole.ADMIN.name())
-           					.antMatchers(HttpMethod.DELETE, "/book/*").hasRole(SegurityUserRole.ADMIN.name())
+           					.antMatchers(HttpMethod.POST, "/book/*").hasRole(SecurityUserRole.ADMIN.name())
+           					.antMatchers(HttpMethod.PUT, "/book/*").hasRole(SecurityUserRole.ADMIN.name())
+           					.antMatchers(HttpMethod.DELETE, "/book/*").hasRole(SecurityUserRole.ADMIN.name())
            					.antMatchers(HttpMethod.GET, "/bookshelf/*").permitAll()
-           					.antMatchers(HttpMethod.POST, "/bookshelf/*").hasRole(SegurityUserRole.ADMIN.name())
-           					.antMatchers(HttpMethod.DELETE, "/bookshelf/*").hasRole(SegurityUserRole.ADMIN.name())
+           					.antMatchers(HttpMethod.POST, "/bookshelf/*").hasRole(SecurityUserRole.ADMIN.name())
+           					.antMatchers(HttpMethod.DELETE, "/bookshelf/*").hasRole(SecurityUserRole.ADMIN.name())
            					.anyRequest().authenticated()
            				.and()
            					.addFilter(new JWTAuthenticationFilter(authenticationManagerBean()))

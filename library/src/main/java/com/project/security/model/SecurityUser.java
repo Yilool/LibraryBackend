@@ -31,7 +31,7 @@ import com.project.model.entity.LibraryUser;
 
 @Entity
 @EntityListeners(AuditingEntityListener.class)
-public class SegurityUser implements UserDetails{
+public class SecurityUser implements UserDetails{
 	private static final long serialVersionUID = 2046866248113544418L;
 	
 	private static final int MAX_AUTH_ATTEMPTS = 3;
@@ -47,7 +47,7 @@ public class SegurityUser implements UserDetails{
 	
 	@ElementCollection(fetch = FetchType.EAGER)
 	@Enumerated(EnumType.STRING)
-	private Set<SegurityUserRole> roles;
+	private Set<SecurityUserRole> roles;
 	
 	@OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER, optional = false)
     @JoinColumn(name = "libraryuser_id", referencedColumnName = "id", nullable = false)
@@ -72,10 +72,10 @@ public class SegurityUser implements UserDetails{
 	private LocalDateTime passwordPolicyExpDate;
 	
 	
-	public SegurityUser() {
+	public SecurityUser() {
 		super();
 		this.roles = new HashSet<>();
-		this.roles.add(SegurityUserRole.ADMIN);
+		this.roles.add(SecurityUserRole.ADMIN);
 		this.libraryUser = new LibraryUser();
 		this.createTime = LocalDateTime.now();
 		this.updateTime = null;
@@ -87,12 +87,12 @@ public class SegurityUser implements UserDetails{
 		this.passwordPolicyExpDate = LocalDateTime.now().plusYears(1);
 	}
 
-	public SegurityUser(String username, String password, String name, String surname, String dni, String birthdate, String number) {
+	public SecurityUser(String username, String password, String name, String surname, String dni, String birthdate, String number) {
 		super();
 		this.username = username;
 		this.password = password;
 		this.roles = new HashSet<>();
-		this.roles.add(SegurityUserRole.ADMIN);
+		this.roles.add(SecurityUserRole.ADMIN);
 		this.libraryUser = new LibraryUser(name, surname, dni, birthdate, number, this);
 		this.createTime = LocalDateTime.now();
 		this.updateTime = null;
@@ -147,11 +147,11 @@ public class SegurityUser implements UserDetails{
 		this.id = id;
 	}
 
-	public Set<SegurityUserRole> getRoles() {
+	public Set<SecurityUserRole> getRoles() {
 		return roles;
 	}
 
-	public void setRoles(Set<SegurityUserRole> roles) {
+	public void setRoles(Set<SecurityUserRole> roles) {
 		this.roles = roles;
 	}
 

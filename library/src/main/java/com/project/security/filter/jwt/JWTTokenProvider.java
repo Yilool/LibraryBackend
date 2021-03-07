@@ -7,7 +7,7 @@ import java.util.Date;
 import javax.crypto.SecretKey;
 
 import com.project.security.common.SecurityConstants;
-import com.project.security.model.SegurityUser;
+import com.project.security.model.SecurityUser;
 
 import io.jsonwebtoken.Header;
 import io.jsonwebtoken.Jwts;
@@ -17,7 +17,7 @@ import io.jsonwebtoken.security.Keys;
 public class JWTTokenProvider {
 	private static SecretKey key; 
 	
-	public static String generateToken(SegurityUser user) {
+	public static String generateToken(SecurityUser user) {
         return Jwts.builder()
 				.setHeaderParam(Header.TYPE, Header.JWT_TYPE)
 				.setSubject(user.getId().toString())

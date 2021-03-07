@@ -21,8 +21,8 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import com.project.security.common.SecurityConstants;
-import com.project.security.model.SegurityUser;
-import com.project.security.service.UserService;
+import com.project.security.model.SecurityUser;
+import com.project.security.service.SecurityUserService;
 
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
@@ -32,7 +32,7 @@ import io.jsonwebtoken.security.Keys;
 public class JWTAuthorizationFilter extends OncePerRequestFilter {
 
 	@Autowired
-	private UserService userService;
+	private SecurityUserService userService;
 
 	@Override
 	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain)
@@ -65,7 +65,7 @@ public class JWTAuthorizationFilter extends OncePerRequestFilter {
         									.getBody()
         									.getId());
         	
-				SegurityUser user = (SegurityUser) userService.loadUserById(idUser);
+				SecurityUser user = (SecurityUser) userService.loadUserById(idUser);
 				if (idUser != null) {
 					upat=  new UsernamePasswordAuthenticationToken(idUser, user.getRoles(), user.getAuthorities());
 				}

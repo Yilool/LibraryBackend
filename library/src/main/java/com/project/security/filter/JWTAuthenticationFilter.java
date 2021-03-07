@@ -19,8 +19,8 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import com.project.security.common.SecurityConstants;
-import com.project.security.model.SegurityUser;
-import com.project.security.model.dto.SegurityUserDTO;
+import com.project.security.model.SecurityUser;
+import com.project.security.model.dto.SecurityUserDTO;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 @WebFilter
@@ -37,9 +37,9 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 	@Override
 	public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response)
 			throws AuthenticationException {
-		SegurityUserDTO user = null;
+		SecurityUserDTO user = null;
 		try {
-			user = new ObjectMapper().readValue(request.getInputStream(), SegurityUserDTO.class);
+			user = new ObjectMapper().readValue(request.getInputStream(), SecurityUserDTO.class);
 			
 
 		} catch (IOException e) {
@@ -55,7 +55,7 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 			Authentication authResult) throws IOException, ServletException {
 		
         //response.addHeader(HEADER_STRING, TOKEN_PREFIX + generateToken(((SegurityUser)authResult.getPrincipal())));
-        response.getWriter().print(generateToken(((SegurityUser)authResult.getPrincipal())));
+        response.getWriter().print(generateToken(((SecurityUser)authResult.getPrincipal())));
 	}
 	
 	

@@ -6,7 +6,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToOne;
 
-import com.project.security.model.SegurityUser;
+import com.project.security.model.SecurityUser;
 
 @Entity
 public class LibraryUser {
@@ -25,13 +25,13 @@ public class LibraryUser {
 	private String phonenumber;
 	
 	@OneToOne(mappedBy = "libraryUser")
-	private SegurityUser segurityUser;
+	private SecurityUser segurityUser;
 	
 	public LibraryUser() {
 		super();
 	}
 	
-	public LibraryUser(String name, String surname, String dni, String birthdate, String number, SegurityUser segurityUser) {
+	public LibraryUser(String name, String surname, String dni, String birthdate, String number, SecurityUser segurityUser) {
 		super();
 		this.name = name;
 		this.surname = surname;
@@ -89,7 +89,7 @@ public class LibraryUser {
 		this.phonenumber = number;
 	}
 
-	public SegurityUser getSegurityUser() {
+	public SecurityUser getSegurityUser() {
 		return segurityUser;
 	}
 }

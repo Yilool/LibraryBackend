@@ -19,9 +19,9 @@ public class Borrow {
 	private Integer id;
 	
 	@CreatedDate
-	private LocalDateTime createTime;
+	private LocalDateTime createDate;
 	
-	private LocalDateTime passwordPolicyExpDate;
+	private LocalDateTime deliveryDate;
 	
 	@OneToOne(cascade=CascadeType.ALL)
 	@PrimaryKeyJoinColumn
@@ -33,8 +33,8 @@ public class Borrow {
 
 	public Borrow(LibraryUser libraryUser, Book book) {
 		super();
-		this.createTime = LocalDateTime.now();
-		this.passwordPolicyExpDate = LocalDateTime.now().plusDays(15);
+		this.createDate = LocalDateTime.now();
+		this.deliveryDate = LocalDateTime.now().plusDays(15);
 		this.libraryUser = libraryUser;
 		this.book = book;
 	}
@@ -48,19 +48,19 @@ public class Borrow {
 	}
 
 	public LocalDateTime getCreateTime() {
-		return createTime;
+		return createDate;
 	}
 
 	public void setCreateTime(LocalDateTime createTime) {
-		this.createTime = createTime;
+		this.createDate = createTime;
 	}
 
-	public LocalDateTime getPasswordPolicyExpDate() {
-		return passwordPolicyExpDate;
+	public LocalDateTime getDeliveryDate() {
+		return deliveryDate;
 	}
 
-	public void setPasswordPolicyExpDate(LocalDateTime passwordPolicyExpDate) {
-		this.passwordPolicyExpDate = passwordPolicyExpDate;
+	public void setDeliveryDate(LocalDateTime deliveryDate) {
+		this.deliveryDate = deliveryDate;
 	}
 
 	public LibraryUser getLibraryUser() {
