@@ -50,6 +50,7 @@ public class BorrowDTOConverter {
 		
 		borrowDTO.setUsername(su.getUsername());
 		borrowDTO.setTitle(b.getTitle());
+		borrowDTO.setDeliveryDate(borrow.getDeliveryDate().toString());
 		
 		return borrowDTO;
 	}

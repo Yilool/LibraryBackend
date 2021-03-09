@@ -44,12 +44,12 @@ public class BorrowService {
 		return borrowDTOs;
 	}
 
-	public BorrowDTO deleteBorrow(BorrowDTO borrowDTO) throws Exception {
-		Borrow borrow = borrowRepository.findBorrowById(borrowDTO.getId());
+	public BorrowDTO deleteBorrow(Integer id) throws Exception {
+		Borrow borrow = borrowRepository.findBorrowById(id);
 
 		if (borrow == null) {
 			throw new Exception(
-					"The user " + borrowDTO.getUsername() + " haven't borrow the book " + borrowDTO.getTitle());
+					"The user " + borrow.getLibraryUser().getSegurityUser().getUsername() + " haven't borrow the book " + borrow.getBook().getTitle());
 		}
 
 		borrowRepository.deleteById(borrow.getId());
@@ -57,12 +57,12 @@ public class BorrowService {
 		return converter.fromBorrowToBorrowDTO(borrow);
 	}
 
-	public BorrowDTO extendDeliveryDate(BorrowDTO borrowDTO) throws Exception {
-		Borrow borrow = borrowRepository.findBorrowById(borrowDTO.getId());
+	public BorrowDTO extendDeliveryDate(Integer id) throws Exception {
+		Borrow borrow = borrowRepository.findBorrowById(id);
 
 		if (borrow == null) {
 			throw new Exception(
-					"The user " + borrowDTO.getUsername() + " haven't borrow the book " + borrowDTO.getTitle());
+					"The user " + borrow.getLibraryUser().getSegurityUser().getUsername() + " haven't borrow the book " + borrow.getBook().getTitle());
 		}
 
 		borrow.setDeliveryDate(borrow.getDeliveryDate().plusDays(15));

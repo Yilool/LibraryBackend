@@ -4,9 +4,11 @@ import java.time.LocalDateTime;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.PrimaryKeyJoinColumn;
 
@@ -23,11 +25,13 @@ public class Borrow {
 	
 	private LocalDateTime deliveryDate;
 	
-	@OneToOne(cascade=CascadeType.ALL)
+	@OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER, optional = false)
+    @JoinColumn(name = "libraryuser_id", referencedColumnName = "id", nullable = false)
 	@PrimaryKeyJoinColumn
 	private LibraryUser libraryUser;
 	
-	@OneToOne(cascade=CascadeType.ALL)
+	@OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER, optional = false)
+    @JoinColumn(name = "book_id", referencedColumnName = "id", nullable = false)
 	@PrimaryKeyJoinColumn
 	private Book book;
 
