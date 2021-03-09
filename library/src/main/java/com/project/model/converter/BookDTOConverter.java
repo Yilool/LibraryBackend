@@ -34,6 +34,7 @@ public class BookDTOConverter {
 		dto.setEdition(book.getEdition());
 		dto.setIsbn(book.getIsbn());
 		dto.setPages(book.getPages());
+		dto.setBorrow(book.isBorrow());
 		dto.setBookShelf(book.getBookShelf().getGenre());
 
 		return dto;
