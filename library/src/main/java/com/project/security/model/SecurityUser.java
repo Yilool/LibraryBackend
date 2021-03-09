@@ -75,7 +75,7 @@ public class SecurityUser implements UserDetails{
 	public SecurityUser() {
 		super();
 		this.roles = new HashSet<>();
-		this.roles.add(SecurityUserRole.ADMIN);
+		this.roles.add(SecurityUserRole.USER);
 		this.libraryUser = new LibraryUser();
 		this.createTime = LocalDateTime.now();
 		this.updateTime = null;
@@ -92,7 +92,7 @@ public class SecurityUser implements UserDetails{
 		this.username = username;
 		this.password = password;
 		this.roles = new HashSet<>();
-		this.roles.add(SecurityUserRole.ADMIN);
+		this.roles.add(SecurityUserRole.USER);
 		this.libraryUser = new LibraryUser(name, surname, dni, birthdate, number, this);
 		this.createTime = LocalDateTime.now();
 		this.updateTime = null;
