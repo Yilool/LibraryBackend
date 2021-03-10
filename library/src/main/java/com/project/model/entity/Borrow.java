@@ -1,6 +1,6 @@
 package com.project.model.entity;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
@@ -9,8 +9,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
-import javax.persistence.PrimaryKeyJoinColumn;
 
 import org.springframework.data.annotation.CreatedDate;
 
@@ -21,24 +21,28 @@ public class Borrow {
 	private Integer id;
 	
 	@CreatedDate
-	private LocalDateTime createDate;
+	private LocalDate createDate;
 	
-	private LocalDateTime deliveryDate;
+	private LocalDate deliveryDate;
 	
-	@OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER, optional = false)
+	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER, optional = false)
     @JoinColumn(name = "libraryuser_id", referencedColumnName = "id", nullable = false)
-	@PrimaryKeyJoinColumn
 	private LibraryUser libraryUser;
 	
-	@OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER, optional = false)
+	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER, optional = false)
     @JoinColumn(name = "book_id", referencedColumnName = "id", nullable = false)
-	@PrimaryKeyJoinColumn
 	private Book book;
 
+	public Borrow() {
+		super();
+		this.createDate = LocalDate.now();
+		this.deliveryDate = LocalDate.now().plusDays(15);
+	}
+	
 	public Borrow(LibraryUser libraryUser, Book book) {
 		super();
-		this.createDate = LocalDateTime.now();
-		this.deliveryDate = LocalDateTime.now().plusDays(15);
+		this.createDate = LocalDate.now();
+		this.deliveryDate = LocalDate.now().plusDays(15);
 		this.libraryUser = libraryUser;
 		this.book = book;
 	}
@@ -51,19 +55,19 @@ public class Borrow {
 		this.id = id;
 	}
 
-	public LocalDateTime getCreateTime() {
+	public LocalDate getCreateTime() {
 		return createDate;
 	}
 
-	public void setCreateTime(LocalDateTime createTime) {
+	public void setCreateTime(LocalDate createTime) {
 		this.createDate = createTime;
 	}
 
-	public LocalDateTime getDeliveryDate() {
+	public LocalDate getDeliveryDate() {
 		return deliveryDate;
 	}
 
-	public void setDeliveryDate(LocalDateTime deliveryDate) {
+	public void setDeliveryDate(LocalDate deliveryDate) {
 		this.deliveryDate = deliveryDate;
 	}
 

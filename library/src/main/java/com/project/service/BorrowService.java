@@ -1,5 +1,6 @@
 package com.project.service;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -9,8 +10,10 @@ import org.springframework.stereotype.Service;
 
 import com.project.model.converter.BorrowDTOConverter;
 import com.project.model.dto.BorrowDTO;
+import com.project.model.entity.Book;
 import com.project.model.entity.Borrow;
 import com.project.model.entity.LibraryUser;
+import com.project.model.repository.BookRepository;
 import com.project.model.repository.BorrowRepository;
 import com.project.security.model.SecurityUser;
 import com.project.security.model.repository.SecurityUserRepository;
@@ -23,6 +26,8 @@ public class BorrowService {
 	@Autowired
 	private SecurityUserRepository securityUserRepository;
 	@Autowired
+	private BookRepository bookRepository;
+	@Autowired
 	private BorrowDTOConverter converter;
 
 	public List<BorrowDTO> getUserBorrowsByUsername(String username) throws Exception {
@@ -32,15 +37,15 @@ public class BorrowService {
 		if (su == null) {
 			throw new Exception("Username doesn't exist");
 		}
-		
+
 		List<Borrow> borrows = this.getUserBorrowsByLibraryUser(su.getLibraryUser());
-		
+
 		borrows.stream().forEach(b -> {
 			BorrowDTO borrowDTO = converter.fromBorrowToBorrowDTO(b);
-			
+
 			borrowDTOs.add(borrowDTO);
 		});
-		
+
 		return borrowDTOs;
 	}
 
@@ -48,8 +53,8 @@ public class BorrowService {
 		Borrow borrow = borrowRepository.findBorrowById(id);
 
 		if (borrow == null) {
-			throw new Exception(
-					"The user " + borrow.getLibraryUser().getSegurityUser().getUsername() + " haven't borrow the book " + borrow.getBook().getTitle());
+			throw new Exception("The user " + borrow.getLibraryUser().getSegurityUser().getUsername()
+					+ " haven't borrow the book " + borrow.getBook().getTitle());
 		}
 
 		borrowRepository.deleteById(borrow.getId());
@@ -61,8 +66,8 @@ public class BorrowService {
 		Borrow borrow = borrowRepository.findBorrowById(id);
 
 		if (borrow == null) {
-			throw new Exception(
-					"The user " + borrow.getLibraryUser().getSegurityUser().getUsername() + " haven't borrow the book " + borrow.getBook().getTitle());
+			throw new Exception("The user " + borrow.getLibraryUser().getSegurityUser().getUsername()
+					+ " haven't borrow the book " + borrow.getBook().getTitle());
 		}
 
 		borrow.setDeliveryDate(borrow.getDeliveryDate().plusDays(15));
@@ -72,6 +77,7 @@ public class BorrowService {
 
 	public BorrowDTO newBorrow(BorrowDTO borrowDTO) throws Exception {
 		Borrow borrow = converter.fromBorrowDTOToBorrow(borrowDTO);
+		Book book = bookRepository.findBookByTitle(borrowDTO.getTitle());
 
 		List<Borrow> borrows = this.getUserBorrowsByLibraryUser(borrow.getLibraryUser());
 
@@ -81,10 +87,23 @@ public class BorrowService {
 
 		this.deliveryDateCheck(borrows);
 
+		this.isBorrowCheck(book);
+		
+		book.setBorrow(true);
+
 		return converter.fromBorrowToBorrowDTO(borrowRepository.save(borrow));
 	}
 
 	/////
+	private void isBorrowCheck(Book book) throws Exception {
+		if (book.isBorrow()) {
+			this.isBorrowCheckException(book);
+		}
+	}
+
+	private void isBorrowCheckException(Book book) throws Exception {
+		throw new Exception("The book" + book.getTitle() + "are borrowed yet");
+	}
 
 	private void deliveryDateCheck(List<Borrow> borrows) throws Exception {
 		for (Borrow borrow : borrows) {
@@ -95,7 +114,7 @@ public class BorrowService {
 	}
 
 	private Boolean isDeliveryDatePassed(Borrow borrow) {
-		return (borrow.getDeliveryDate().isBefore(LocalDateTime.now())) ? Boolean.TRUE : Boolean.FALSE;
+		return (borrow.getDeliveryDate().isBefore(LocalDate.now())) ? Boolean.TRUE : Boolean.FALSE;
 	}
 
 	private void isDeliveryDatePassedException(Borrow borrow) throws Exception {

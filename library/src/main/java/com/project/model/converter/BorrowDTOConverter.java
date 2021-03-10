@@ -48,6 +48,7 @@ public class BorrowDTOConverter {
 		
 		BorrowDTO borrowDTO = new BorrowDTO();
 		
+		borrowDTO.setId(borrow.getId());
 		borrowDTO.setUsername(su.getUsername());
 		borrowDTO.setTitle(b.getTitle());
 		borrowDTO.setDeliveryDate(borrow.getDeliveryDate().toString());

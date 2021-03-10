@@ -23,7 +23,7 @@ public class BorrowController {
 	@Autowired
 	private BorrowService borrowService;
 
-	@GetMapping(path = "/{username}")
+	@GetMapping(path = "/user/{username}")
 	public ResponseEntity<?> getAllBorrows(@PathVariable String username) {
 		ResponseEntity<?> response;
 
@@ -51,7 +51,7 @@ public class BorrowController {
 		return response;
 	}
 
-	@GetMapping(path = "/{id}")
+	@GetMapping(path = "/borrow/{id}")
 	public ResponseEntity<?> extendBorrow(@PathVariable Integer id) {
 		ResponseEntity<?> response;
 

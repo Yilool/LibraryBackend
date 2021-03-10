@@ -31,7 +31,7 @@ public class Book {
 	private boolean borrow;
 	
 	@ManyToOne
-	@JoinColumn(name = "books", foreignKey = @ForeignKey(name = "fk_book_id"))
+	@JoinColumn(name = "bookShelf", foreignKey = @ForeignKey(name = "fk_book_id"))
 	private BookShelf bookShelf;
 
 	public Book() {
