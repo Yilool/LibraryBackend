@@ -1,9 +1,11 @@
 package com.project.service;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
+
+import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -49,6 +51,7 @@ public class BorrowService {
 		return borrowDTOs;
 	}
 
+	@Transactional
 	public BorrowDTO deleteBorrow(Integer id) throws Exception {
 		Borrow borrow = borrowRepository.findBorrowById(id);
 
@@ -56,8 +59,12 @@ public class BorrowService {
 			throw new Exception("The user " + borrow.getLibraryUser().getSegurityUser().getUsername()
 					+ " haven't borrow the book " + borrow.getBook().getTitle());
 		}
+		
+		borrow.setDeleteDate(LocalDate.now());
+		
+		Book book = borrow.getBook();
 
-		borrowRepository.deleteById(borrow.getId());
+		book.setBorrow(false);
 
 		return converter.fromBorrowToBorrowDTO(borrow);
 	}
@@ -69,6 +76,8 @@ public class BorrowService {
 			throw new Exception("The user " + borrow.getLibraryUser().getSegurityUser().getUsername()
 					+ " haven't borrow the book " + borrow.getBook().getTitle());
 		}
+		
+		this.extendDeliveryLimitCheck(borrow);
 
 		borrow.setDeliveryDate(borrow.getDeliveryDate().plusDays(15));
 
@@ -95,6 +104,16 @@ public class BorrowService {
 	}
 
 	/////
+	private void extendDeliveryLimitCheck(Borrow borrow) throws Exception {
+		if (borrow.getNumExtend() == 2) {
+			this.extendDeliveryLimitCheckException();
+		}
+	}
+	
+	private void extendDeliveryLimitCheckException() throws Exception {
+		throw new Exception("The user has exceeded the extend delivery's limit");
+	}
+	
 	private void isBorrowCheck(Book book) throws Exception {
 		if (book.isBorrow()) {
 			this.isBorrowCheckException(book);
@@ -122,7 +141,11 @@ public class BorrowService {
 	}
 
 	private Boolean isGreaterThanBorrowsLimit(List<Borrow> borrows) {
-		return (borrows.size() > MAX_BORROWS) ? Boolean.TRUE : Boolean.FALSE;
+		List<Borrow> b = borrows.stream()
+				.filter(borrow -> borrow.getDeleteDate() == null)
+				.collect(Collectors.toList());
+		
+		return (b.size() > MAX_BORROWS) ? Boolean.TRUE : Boolean.FALSE;
 	}
 
 	private void isGreaterThanBorrowsLimitException() throws Exception {

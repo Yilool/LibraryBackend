@@ -2,6 +2,7 @@ package com.project.controller;
 
 import java.util.List;
 
+import org.apache.logging.log4j.core.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -22,6 +23,8 @@ import com.project.service.BorrowService;
 public class BorrowController {
 	@Autowired
 	private BorrowService borrowService;
+	
+	private Logger log;
 
 	@GetMapping(path = "/user/{username}")
 	public ResponseEntity<?> getAllBorrows(@PathVariable String username) {
@@ -31,6 +34,7 @@ public class BorrowController {
 			List<BorrowDTO> borrowDTO = borrowService.getUserBorrowsByUsername(username);
 			response = ResponseEntity.ok(borrowDTO);
 		} catch (Exception e) {
+			log.error(e.getMessage());
 			response = ResponseEntity.badRequest().body(e.getMessage());
 		}
 
@@ -45,6 +49,7 @@ public class BorrowController {
 			BorrowDTO borrowDTO2 = borrowService.newBorrow(borrowDTO);
 			response = ResponseEntity.ok(borrowDTO2);
 		} catch (Exception e) {
+			log.error(e.getMessage());
 			response = ResponseEntity.badRequest().body(e.getMessage());
 		}
 
@@ -58,7 +63,8 @@ public class BorrowController {
 		try {
 			BorrowDTO borrowDTO2 = borrowService.extendDeliveryDate(id);
 			response = ResponseEntity.ok(borrowDTO2);
-		} catch (Exception e) { 
+		} catch (Exception e) {
+			log.error(e.getMessage());
 			response = ResponseEntity.badRequest().body(e.getMessage());
 		}
 
@@ -73,6 +79,7 @@ public class BorrowController {
 			BorrowDTO borrowDTO2 = borrowService.deleteBorrow(id);
 			response = ResponseEntity.ok(borrowDTO2);
 		} catch (Exception e) {
+			log.error(e.getMessage());
 			response = ResponseEntity.badRequest().body(e.getMessage());
 		}
 

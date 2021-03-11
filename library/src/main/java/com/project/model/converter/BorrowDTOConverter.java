@@ -52,6 +52,9 @@ public class BorrowDTOConverter {
 		borrowDTO.setUsername(su.getUsername());
 		borrowDTO.setTitle(b.getTitle());
 		borrowDTO.setDeliveryDate(borrow.getDeliveryDate().toString());
+		if (borrow.getDeleteDate() != null) {
+			borrowDTO.setDeleteDate(borrow.getDeleteDate().toString());
+		}
 		
 		return borrowDTO;
 	}

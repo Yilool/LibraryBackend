@@ -2,6 +2,7 @@ package com.project.controller;
 
 import java.util.List;
 
+import org.apache.logging.log4j.core.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -22,6 +23,8 @@ import com.project.service.BookShelfService;
 public class BookShelfController {
 	@Autowired
 	BookShelfService bookShelfService;
+	
+	private Logger log;
 
 	@GetMapping
 	private ResponseEntity<?> getAllBookShelves() {
@@ -31,6 +34,7 @@ public class BookShelfController {
 			List<BookShelfDTO> result = bookShelfService.getAllBookShelves();
 			response = ResponseEntity.ok(result);
 		} catch (Exception e) {
+			log.error(e.getMessage());
 			response = ResponseEntity.badRequest().body(e.getMessage());
 		}
 
@@ -45,6 +49,7 @@ public class BookShelfController {
 			BookShelfDTO bookShelf2 = bookShelfService.addBookShelf(bookShelf);
 			response = ResponseEntity.ok(bookShelf2);
 		} catch (Exception e) {
+			log.error(e.getMessage());
 			response = ResponseEntity.badRequest().body(e.getMessage());
 		}
 
@@ -59,6 +64,7 @@ public class BookShelfController {
 			BookShelfDTO bookShelf = bookShelfService.deleteBookShelf(id);
 			response = ResponseEntity.ok(bookShelf);
 		} catch (Exception e) {
+			log.error(e.getMessage());
 			response = ResponseEntity.badRequest().body(e.getMessage());
 		}
 

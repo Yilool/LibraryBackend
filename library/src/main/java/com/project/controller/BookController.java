@@ -2,6 +2,7 @@ package com.project.controller;
 
 import java.util.List;
 
+import org.apache.logging.log4j.core.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -24,6 +25,8 @@ public class BookController {
 	@Autowired
 	private BookService bookService;
 
+	private Logger log;
+	
 	@GetMapping
 	public ResponseEntity<?> getBooks() {
 		ResponseEntity<?> response;
@@ -32,6 +35,7 @@ public class BookController {
 			List<BookDTO> results = bookService.getAllBook();
 			response = ResponseEntity.ok(results);
 		} catch (Exception e) {
+			log.error(e.getMessage());
 			response = ResponseEntity.badRequest().body(e.getMessage());
 		}
 
@@ -46,6 +50,7 @@ public class BookController {
 			BookDTO book2 = bookService.addBook(book);
 			response = ResponseEntity.ok(book2);
 		} catch (Exception e) {
+			log.error(e.getMessage());
 			response = ResponseEntity.badRequest().body(e.getMessage());
 		}
 
@@ -60,6 +65,7 @@ public class BookController {
 			BookDTO book = bookService.getBookById(id);
 			response = ResponseEntity.ok(book);
 		} catch (Exception e) {
+			log.error(e.getMessage());
 			response = ResponseEntity.badRequest().body(e.getMessage());
 		}
 
@@ -73,7 +79,8 @@ public class BookController {
 		try {
 			BookDTO book2 = bookService.updateBook(id, book);
 			response = ResponseEntity.ok(book2);
-		} catch (Exception e) { 
+		} catch (Exception e) {
+			log.error(e.getMessage());
 			response = ResponseEntity.badRequest().body(e.getMessage());
 		}
 
@@ -88,6 +95,7 @@ public class BookController {
 			BookDTO book = bookService.deleteBook(id);
 			response = ResponseEntity.ok(book);
 		} catch (Exception e) {
+			log.error(e.getMessage());
 			response = ResponseEntity.badRequest().body(e.getMessage());
 		}
 

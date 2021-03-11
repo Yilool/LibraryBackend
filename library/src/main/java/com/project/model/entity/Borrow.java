@@ -10,7 +10,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToOne;
 
 import org.springframework.data.annotation.CreatedDate;
 
@@ -25,6 +24,10 @@ public class Borrow {
 	
 	private LocalDate deliveryDate;
 	
+	private LocalDate deleteDate;
+	
+	int numExtend;
+	
 	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER, optional = false)
     @JoinColumn(name = "libraryuser_id", referencedColumnName = "id", nullable = false)
 	private LibraryUser libraryUser;
@@ -35,16 +38,37 @@ public class Borrow {
 
 	public Borrow() {
 		super();
+		this.deleteDate = null;
+		this.numExtend = 0;
 		this.createDate = LocalDate.now();
 		this.deliveryDate = LocalDate.now().plusDays(15);
 	}
 	
 	public Borrow(LibraryUser libraryUser, Book book) {
 		super();
+		this.deleteDate = null;
+		this.numExtend = 0;
 		this.createDate = LocalDate.now();
 		this.deliveryDate = LocalDate.now().plusDays(15);
 		this.libraryUser = libraryUser;
 		this.book = book;
+	}
+
+	
+	public LocalDate getDeleteDate() {
+		return deleteDate;
+	}
+
+	public void setDeleteDate(LocalDate deleteTime) {
+		this.deleteDate = deleteTime;
+	}
+
+	public int getNumExtend() {
+		return numExtend;
+	}
+
+	public void setNumExtend(int numExtend) {
+		this.numExtend = numExtend;
 	}
 
 	public Integer getId() {
@@ -55,11 +79,11 @@ public class Borrow {
 		this.id = id;
 	}
 
-	public LocalDate getCreateTime() {
+	public LocalDate getCreateDate() {
 		return createDate;
 	}
 
-	public void setCreateTime(LocalDate createTime) {
+	public void setCreateDate(LocalDate createTime) {
 		this.createDate = createTime;
 	}
 

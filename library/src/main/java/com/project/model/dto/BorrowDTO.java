@@ -9,6 +9,7 @@ public class BorrowDTO {
 	String username;
 	String title;
 	String deliveryDate;
+	String deleteDate;
 
 	public Integer getId() {
 		return id;
@@ -42,4 +43,11 @@ public class BorrowDTO {
 		this.deliveryDate = deliveryDate;
 	}
 
+	public String getDeleteDate() {
+		return deleteDate;
+	}
+
+	public void setDeleteDate(String deleteDate) {
+		this.deleteDate = deleteDate;
+	}
 }
